@@ -1,37 +1,17 @@
-$colors = @(
-    [ConsoleColor]::Black,
-    [ConsoleColor]::DarkBlue,
-    [ConsoleColor]::DarkGreen,
-    [ConsoleColor]::DarkCyan,
-    [ConsoleColor]::DarkRed,
-    [ConsoleColor]::DarkMagenta,
-    [ConsoleColor]::DarkYellow,
-    [ConsoleColor]::Gray,
-    [ConsoleColor]::DarkGray,
-    [ConsoleColor]::Blue,
-    [ConsoleColor]::Green,
-    [ConsoleColor]::Cyan,
-    [ConsoleColor]::Red,
-    [ConsoleColor]::Magenta,
-    [ConsoleColor]::Yellow,
-    [ConsoleColor]::White
-)
+$colors = [System.Enum]::GetNames([System.ConsoleColor])
 
 foreach ($color in $colors) {
-    $label = "{0,-15}" -f $color
+    
+    Write-Host ($color.PadRight(15)) -NoNewline
 
-    Write-Host $label -ForegroundColor $color -NoNewline
+   
+    Write-Host ($color.PadRight(15)) -ForegroundColor $color -NoNewline
 
-    if ($color -in [ConsoleColor]::Black, [ConsoleColor]::DarkBlue,
-        [ConsoleColor]::DarkGreen, [ConsoleColor]::DarkCyan,
-        [ConsoleColor]::DarkRed, [ConsoleColor]::DarkMagenta, [ConsoleColor]::DarkYellow,
-        [ConsoleColor]::DarkGray, [ConsoleColor]::Blue,
-        [ConsoleColor]::Green, [ConsoleColor]::Red) {
-        $fg = [ConsoleColor]::White
-    } else {
-        $fg = [ConsoleColor]::Black
+   
+    if ($color -eq 'Black') {
+        Write-Host $color.PadRight(15)
     }
-    Write-Host $label -BackgroundColor $color -ForegroundColor $fg -NoNewline
-
-    Write-Host ("               ") -BackgroundColor $color
+    else {
+        Write-Host ($color.PadRight(15)) -BackgroundColor $color
+    }
 }
