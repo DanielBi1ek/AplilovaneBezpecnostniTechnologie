@@ -1,0 +1,33 @@
+# Tu vytvořím ty Alissy
+New-Alias -Name np -Value notepad.exe
+New-Alias -Name ct -Value control.exe
+Get-Alias np, ct
+
+$aliasy = Get-Alias np, ct | Select-Object Name, Definition
+
+#Save do JSONU
+
+$aliasy | ConvertTo-Json | Out-File "$HOME\aliasy.json" -Encoding utf8
+
+#Save do XML
+$aliasy | Export-Clixml -Path "$HOME\aliasy.xml"
+
+
+#Mazani
+
+Remove-Item Alias:np, Alias:ct
+Get-Alias np, ct -ErrorAction SilentlyContinue
+
+# Tohle je JSON
+
+Get-Content "$HOME\aliasy.json" -Raw | ConvertFrom-Json | ForEach-Object {
+    New-Alias -Name $_.Name -Value $_.Definition
+}
+Get-Alias np, ct
+
+
+#Tohle je XML
+Import-Clixml -Path "$HOME\aliasy.xml" | ForEach-Object {
+    New-Alias -Name $_.Name -Value $_.Definition
+}
+Get-Alias np, ct
